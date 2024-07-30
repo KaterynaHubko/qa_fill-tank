@@ -1,13 +1,13 @@
 'use strict';
 
-describe('fillTank', () => {
-  const { fillTank } = require('./fillTank');
+const { fillTank } = require('./fillTank');
 
+describe('fillTank', () => {
   it('should be declared', () => {
     expect(fillTank).toBeInstanceOf(Function);
   });
 
-  it('amount < 2 - do nothing', () => {
+  it('should do nothing if the amount of fuel is less than 2', () => {
     const AMOUNT = 1.8;
     const PRICE = 15;
 
@@ -32,7 +32,8 @@ describe('fillTank', () => {
     expect(customerToTank).toEqual(customerAfterTanking);
   });
 
-  it('(customer.money / price) < 2 - do nothing', () => {
+  it('should do nothing if the amount of fuel to buy'
+    + 'is less than 2 and customer cannot afford more', () => {
     const AMOUNT = 15;
     const PRICE = 22;
 
@@ -57,7 +58,8 @@ describe('fillTank', () => {
     expect(customerToTank).toEqual(customerAfterTanking);
   });
 
-  it('customer has not enough money', () => {
+  it('should calculate and fill the maximum amount'
+    + 'of fuel customer can afford if they have insufficient funds', () => {
     const PRICE = 20;
     const AMOUNT = 10;
 
@@ -69,7 +71,6 @@ describe('fillTank', () => {
       },
     };
 
-    // Calculate the maximum amount of fuel the customer can buy
     const maxAffordableAmount = Math.floor(
       (customerToTank.money / PRICE) * 10
     ) / 10;
@@ -92,7 +93,8 @@ describe('fillTank', () => {
     expect(customerToTank).toEqual(customerAfterTanking);
   });
 
-  it('Argument "amount" was not passed', () => {
+  it('should default to filling the tank to full'
+    + 'if no amount is specified', () => {
     const PRICE = 20;
 
     const customerToTank = {
@@ -116,7 +118,8 @@ describe('fillTank', () => {
     expect(customerToTank).toEqual(customerAfterTanking);
   });
 
-  it('amount > (customer.maxTankCapacity - customer.fuelRemains)', () => {
+  it('should fill the tank to full if the specified amount'
+    + 'exceeds the required amount', () => {
     const PRICE = 20;
     const AMOUNT = 38;
 
